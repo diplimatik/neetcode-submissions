@@ -1,0 +1,18 @@
+func carFleet(target int, position []int, speed []int) int {
+	sortedFleetIdx := make([]int, len(position))
+	for i := 0; i < len(position); i++ {
+		sortedFleetIdx[i] = i
+	}
+	sort.SliceStable(sortedFleetIdx, func(i, j int) bool {
+		return position[sortedFleetIdx[i]] > position[sortedFleetIdx[j]]
+	})
+	leadingCarTime := float64(target - position[sortedFleetIdx[0]]) / float64(speed[sortedFleetIdx[0]])
+	fleetCount := 1
+	for i := 1; i < len(sortedFleetIdx); i++ {
+		if  leadingCarTime < float64(target-position[sortedFleetIdx[i]])/float64(speed[sortedFleetIdx[i]]) {
+			leadingCarTime = float64(target-position[sortedFleetIdx[i]])/float64(speed[sortedFleetIdx[i]])
+			fleetCount++
+		}
+	}
+	return fleetCount
+}
